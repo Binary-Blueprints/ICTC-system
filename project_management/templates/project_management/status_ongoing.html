@@ -1,0 +1,43 @@
+{% extends 'posts/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<style>
+  .btn {
+    float: right;
+}
+
+.inner-content {
+    line-height: 1.5em;
+    height: 20em;       /* height is 2x line-height, so two lines will display */
+    overflow: hidden;
+}
+
+</style>
+
+
+ <h3 class="display-3 my-3 text-center">Ongoing Projects</h3>
+
+ {% for post in posts %}
+ {% if  'ongoing' in post.state_of_project %}
+ <div class="row mt-4">
+     <div class="col mb-4">
+         <div class="card">
+             <div class="card-body">
+                 <div class= 'inner-content'>
+                 <h2 class="mb-3"><a href="{% url 'status-detail' post.pk %}" class="text-dark">{{ post.title }}</a>
+                 </h2>
+                <hr/>
+                 <p>{% autoescape off %}{{ post.introduction_html }}{% endautoescape %}</p>
+                </div>
+                <br/>
+                 <a href="{% url 'status-detail' post.pk %}" class="btn btn-secondary float-right">View Details</a>
+                <br/>
+            </div>
+         </div>
+     </div>
+ </div>
+ {% endif %}
+ {% endfor %}
+
+{% endblock content %}

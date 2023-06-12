@@ -1,0 +1,87 @@
+{% extends 'posts/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<style>
+  .btn-secondary {
+    float: right;
+}
+</style>
+
+<a href="{% url 'status' %}" class="btn btn-light my-4">Go Back</a>
+
+ <h3 class="display-3 my-3 text-center">Project Detail</h3>
+
+ <div class="row mt-4">
+     <div class="col mb-4">
+         <div class="card">
+             <div class="card-body">
+                 <h2 class="mb-3"><a href="#" class="text-dark">{{ post.title }}</a>
+                 {% if request.user == post.publisher %}
+                   <a href="{% url 'status-edit' post.pk %}" style="color: #333; float:right;"><i class="far fa-edit mx-1"></i></a>
+                   <a href="{% url 'status-delete' post.pk %}" style="color: #333; float:right;"><i class="fas fa-trash mx-1"></i></a>
+                 {% endif %}
+                 </h2>
+                 <h6><span class="border border-success p-1 rounded">State of the Project: {{ post.state_of_project }}</span></h6>
+                <hr/>
+                 {% if post.introduction %}
+                 <p><h4 class="mt-4">Introduction:</h4>{% autoescape off %}{{ post.introduction_html }}{% endautoescape %}</p>
+                 {% endif %}
+                 {% if post.background %}
+                 <p><h4>Background:</h4>{{ post.background }} </p>
+                 {% endif %}
+                 {% if post.scope_of_work %}
+                 <p><h4>Scope of Work:</h4>{{ post.scope_of_work }} </p>
+                 {% endif %}
+                 {% if post.objective %}
+                 <p><h4>Objective:</h4>{{ post.objective }} </p>
+                 {% endif %}
+                 {% if post.project_duration %}
+                 <p><h4>Project Duration:</h4>{{ post.project_duration }} </p>
+                 {% endif %}
+                 {% if post.funding %}
+                 <p><h4>Post Funding:</h4>{{ post.funding }} </p>
+                 {% endif %}
+                 {% if post.estimated_completion_date %}
+                 <p><h4>Estimated Completion Date:</h4>{{ post.estimated_completion_date }} </p>
+                 {% endif %}
+                 {% if post.other_description %}
+                 <p><h4>Other Description:</h4>{{ post.other_description }} </p>
+                 {% endif %}
+
+                 <!--h4>Roles:</h4>
+                 <ul>
+                     {% for r in role %}
+                         <li> {{ r.role_name }} </li>
+                     {% endfor %}
+                 </ul-->
+
+
+                 {% for role in post.role_set.all %}
+                 <h4> {{ role.role_name }} </h4>
+                 <ul>
+                     {% for person in role.person_set.all %}
+                         <li> {{ person.name }} </li>
+                     {% endfor %}
+                 </ul>
+                 {% endfor %}
+
+
+                {% if user.is_authenticated %}
+                 <form method="POST" enctype="multipart/form-data">
+                   {% csrf_token %}
+                   {% if  'ongoing' in post.state_of_project %}
+                       <button class="btn btn-secondary">Mark Completed</button>
+                   {% else %}
+                       <button class="btn btn-secondary">Mark Ongoing</button>
+                   {% endif %}
+                  </form>
+                {% endif %}
+
+             </div>
+         </div>
+     </div>
+ </div>
+
+{% endblock content %}

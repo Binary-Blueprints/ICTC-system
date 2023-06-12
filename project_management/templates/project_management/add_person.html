@@ -1,0 +1,53 @@
+{% extends 'posts/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<style>
+
+  input,textarea,select {
+    margin-bottom: 1vh !important;
+  }
+
+</style>
+    {% if user.is_authenticated %}
+       <div class = "card my-3">
+          <div class = "card-body">
+                <h2 class="my-2">Add people to your project</h2>
+                <hr/>
+                <form method="POST" enctype="multipart/form-data">
+                   {% csrf_token %}
+                   {{ form.name|as_crispy_field }}
+                   {{ form.about|as_crispy_field }}
+                   <div id="div_id_role" class="form-group"> <label for="id_role" class=" requiredField">
+                     Role<span class="asteriskField">*</span> </label> <div class=""> <select name="role" class="select form-control" required id="id_role"> <option value="" selected>---------</option> 
+                       {% for role in project.role_set.all %}
+                       <option value="{{role.pk}}">{{role.role_name}}</option> 
+                       {% endfor %}
+                       </select> 
+                       </div> </div> 
+                   {{ form.profile_pic|as_crispy_field }}
+                   <button class="btn btn-success mt-3" name="save_button">Add Person!</button>
+                 </form>
+                {{ form.media }}
+                <br/>
+                <a href="{% url 'status-detail' project.pk%}" class="btn btn-primary mt-3" name="next">Done!!</a>
+          </div>
+       </div>
+
+
+       <div class = "card my-3">
+        <div class = "card-body">
+          <h2 class="my-2">All People:</h2>
+          <hr/>
+
+           {% for role in project.role_set.all %}
+                {% for person in role.person_set.all %}
+                <a href="{% url 'delete-person' person.pk %}"><i style='color:red' class="mr-4 fas fa-minus-circle"></i>
+                </a> {{ person.name }} : {{role.role_name}} <br/>
+                {% endfor %}
+           {% endfor %}
+        </div>
+       </div>
+
+    {% endif %}
+ {% endblock content %}

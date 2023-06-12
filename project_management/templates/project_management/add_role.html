@@ -1,0 +1,56 @@
+{% extends 'posts/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<style>
+  input,textarea,select {
+    margin-bottom: 1vh !important;
+  }
+</style>
+    {% if user.is_authenticated %}
+       <div class = "card my-3">
+          <div class = "card-body">
+                <h2 class="my-2">Add roles to your Project</h2>
+                <hr/>
+                <form method="POST" enctype="multipart/form-data">
+                   {% csrf_token %}
+                   <span class="font-weight-bold">Project Name: </span>{{project.title}}<br/><br/>
+                   Role name<span class="asteriskField">*</span> <input type="text" name="role_name" maxlength="200" class="textinput textInput form-control" required="" id="id_role_name"/> 
+
+                   <select name="project" class="select form-control" required="" id="id_project"> 
+                       <!--option value="pk" selected="">title</option--> 
+
+                       <option value="{{project.pk}}"> {{project.title}} </option>
+
+                       <!--option value="8">8) CASS: Content-Aware Search System</option> 
+                       <option value="11">11) LICT MANAGDEMENT SYSTEM</option> 
+                       <option value="12">12) LICT Lab Management System</option> 
+                       <option value="13">13) CertiCoq: Principled Optimizing Compilation of Dependently Typed Programs</option> 
+                       <option value="14">14) fvdfbgfgb</option--> 
+
+                   </select>
+                   <button class="btn btn-success mt-3" name="save_button">Add Role!</button>
+                 </form>
+                {{ form.media }}
+                <br/>
+                <a href="{% url 'add-person' project.pk%}" class="btn btn-primary mt-3" name="next">Proceed Next >></a>
+          </div>
+       </div>
+       <script>document.querySelector('#id_project').style.display = 'none'</script>
+
+
+       {% if project.role_set.all %}
+       <div class = "card my-3">
+         <div class = "card-body">
+            <h2 class="my-2">All Roles:</h2>
+            <hr/>
+            {% for role in project.role_set.all %}
+                <a href="{% url 'delete-role' role.pk %}"><i style='color:red' class="mr-4 fas fa-minus-circle"></i>
+                </a> {{ role.role_name }} <br/>
+            {% endfor %}
+         </div>
+       </div>
+       {% endif %}
+
+    {% endif %}
+ {% endblock content %}
