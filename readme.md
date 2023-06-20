@@ -14,3 +14,11 @@ First run these commands in the outer LICT folder(one that contains manage.py):
 
 <br/>This'll start a webserver, and the app can be browsed from:
 <br/>http://127.0.0.1:8000/
+
+**OR USE DOCKER AS**
+
+Use the `./Dockerfile` to create a docker container and use the application. Also, `./docker-compose.dev.yml` file can be used for development purpose as:
+
+`sudo docker compose -f docker-compose.dev.yml up --build`
+
+and access the application at: <br/>http://0.0.0.0:8000/
