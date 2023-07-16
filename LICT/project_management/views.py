@@ -76,7 +76,7 @@ class StatusCreate(View):
             else:
                 return render(request, 'posts/no_permission.html')
 
-        return HttpResponseRedirect(reverse('add-role', kwargs={'project_id': new_post.pk}))
+        return HttpResponseRedirect(reverse('add-person', kwargs={'project_id': new_post.pk}))
         #return redirect('status')
 
 
@@ -87,7 +87,7 @@ class StatusEdit(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def get_success_url(self):
         pk = self.kwargs['pk']
-        return reverse('add-role', kwargs={'project_id': pk})
+        return reverse('add-person', kwargs={'project_id': pk})
 
     def test_func(self):
         post = self.get_object()
@@ -136,28 +136,33 @@ class AddRole(View):
         form = RoleForm(request.POST, request.FILES)
         if form.is_valid():
             new_role = form.save(commit=False)
-            new_role.project = project
             new_role.save()
             form = RoleForm() # Clearing the form after submission
         return HttpResponseRedirect(reverse('add-role', kwargs={'project_id': project_id}))
 
 
-class AddPerson(View):
+class AddCollaborator(View):
     def get(self, request, project_id, *args, **kwargs):
-        form = PersonForm()
         project = get_object_or_404(Status, pk=project_id)
+        form = CollaboratorForm()
+        # form.collborating_project = Status.objects.get(pk=project_id)
+        # form.save()
+        # initial={'collborating_project':project_id}
         context = {
             'project': project,
             'form':form
         }
-        return render(request, 'project_management/add_person.html', context)
+        return render(request, 'project_management/add_collaborator.html', context)
 
     def post(self, request, project_id, *args, **kwargs):
-        form = PersonForm(request.POST, request.FILES)
+        form = CollaboratorForm(request.POST, request.FILES)
+        # form.cleaned_data["collborating_project"] = project_id
+        # form.data["collborating_project"] = project_id
         if form.is_valid():
-            new_user = form.save(commit=False)
-            new_user.save()
-            form = PersonForm() # Clearing the form after submission
+            new_collaborator = form.save(commit=False)
+            new_collaborator.collborating_project = Status.objects.get(pk = project_id)
+            new_collaborator.save()
+            form = CollaboratorForm() # Clearing the form after submission
         return HttpResponseRedirect(reverse('add-person', kwargs={'project_id': project_id}))
         
 
@@ -168,9 +173,9 @@ class DeleteRole(View):
 
         return redirect(request.META['HTTP_REFERER'])
 
-class DeletePerson(View):
+class DeleteCollaborator(View):
     def get(self, request, pk, *args, **kwargs):
-        p = Person.objects.get(pk = pk)
+        p = Collaborator.objects.get(pk = pk)
         p.delete()
 
         return redirect(request.META['HTTP_REFERER'])

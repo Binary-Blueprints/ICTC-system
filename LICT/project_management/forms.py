@@ -29,16 +29,10 @@ class RoleForm(forms.ModelForm):
 
     class Meta:
         model = Role
-        fields = ['role_name', 'project']
+        fields = ['role_name', 'role_description']
 
-
-class PersonForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(PersonForm, self).__init__(*args, **kwargs)
-
-    # role = forms.ModelChoiceField(queryset=Role.objects.all())
-
+class CollaboratorForm(forms.ModelForm):
     class Meta:
-        model = Person
-        fields = ['name', 'about', 'role', 'profile_pic']
-
+        model = Collaborator
+        fields = ['role', 'collaborating_user']
+        

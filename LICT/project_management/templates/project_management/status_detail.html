@@ -56,16 +56,27 @@
                          <li> {{ r.role_name }} </li>
                      {% endfor %}
                  </ul-->
+                                  <br>
+                <!-- {{post.collaborator_roles}} -->
+                 <h4>Collaborators:</h4>
+                {% for role,collaborators in post.collaborator_roles.items %}
+                <h5> {{ role }} </h5>
+                {% for collaborator in collaborators %}
+                <li><a href="{% url 'profile' collaborator.collaborating_user.id %}">{{collaborator.collaborating_user.get_full_name}} </a></li>
+                {% endfor %}
 
+                {% endfor %}
 
-                 {% for role in post.role_set.all %}
-                 <h4> {{ role.role_name }} </h4>
+                 <!-- {{post.collaborator_roles}} -->
+                 <!-- {% for collaborator in post.collaborator_set.all %}
+                 <h4> {{ collaborator.role.role_name }} </h4>
                  <ul>
-                     {% for person in role.person_set.all %}
-                         <li> {{ person.name }} </li>
+                    {{collaborator.collaborator_name}}
+                     {% for person in collaborator.all %}
+                         <li> {{ person.collaborator_name }} </li>
                      {% endfor %}
                  </ul>
-                 {% endfor %}
+                 {% endfor %} -->
 
 
                 {% if user.is_authenticated %}
