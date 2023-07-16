@@ -10,7 +10,7 @@ class PostForm(forms.ModelForm):
 
     class Meta:
         model = Post
-        fields = [ 'title', 'body']
+        fields = [ 'title', 'body', 'research_file']
 
 
 class ResearchDomainForm(forms.ModelForm):
@@ -24,7 +24,13 @@ class ResearchDomainForm(forms.ModelForm):
 class ResearchPublicationForm(forms.ModelForm):
     class Meta:
         model = ResearchPublicationList
-        fields = [ 'name']
+        fields = ['name','research_paper','link_to_project','researchers','external_researchers','publish_date','published_at']
+
+    def __init__(self, *args, **kwargs):
+        super(ResearchPublicationForm, self).__init__(*args,**kwargs)
+        self.fields["researchers"].widget = forms.widgets.CheckboxSelectMultiple()
+        self.fields["researchers"].queryset = User.objects.filter(profile__is_researcher = True)
+
 
 class NewsForm(forms.ModelForm):
     body = MarkdownxFormField()
@@ -32,3 +38,9 @@ class NewsForm(forms.ModelForm):
     class Meta:
         model = News
         fields = [ 'title', 'body']
+
+class CollaboratorForm(forms.ModelForm):
+    class Meta:
+        model = Collaborator
+        fields = ['role', 'collaborating_user']
+        

@@ -1,0 +1,40 @@
+{% extends 'posts/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<style>
+
+  input,textarea,select {
+    margin-bottom: 1vh !important;
+  }
+
+</style>
+    {% if user.is_authenticated %}
+       <div class = "card my-3">
+          <div class = "card-body">
+                <h2 class="my-2">Add people to your project</h2>
+                <hr/>
+                <form method="POST" enctype="multipart/form-data">
+                   {% csrf_token %}
+                   <span class="font-weight-bold">Project Name: </span>{{project.title}}<br/><br/>
+                    {{ form|crispy }}
+                    <button class="btn btn-success mt-3" name="save_button">Add Person!</button>
+                </form>
+                <br/>
+                <a href="{% url 'status-detail' project.pk %}" class="btn btn-primary mt-3" name="next">Done!!</a>
+          </div>
+       </div>
+
+
+       <div class = "card my-3">
+        <div class = "card-body">
+          <h2 class="my-2">All People:</h2>
+          <hr/>
+           {% for collaborator in project.collaborator.all %}
+               {{collaborator.collaborating_user.get_full_name}} <a href="{% url 'delete-person' collaborator.pk %}"><i style='color:red' class="mr-4 fas fa-minus-circle"></i></a><br/>
+           {% endfor %}
+        </div>
+       </div>
+
+    {% endif %}
+ {% endblock content %}

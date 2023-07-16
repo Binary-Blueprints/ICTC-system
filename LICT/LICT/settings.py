@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-bs7#idf2w19wi8f%i)%n_j#(x)-vk3(yc3w%&!(%$!&zvl%*27'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -35,15 +35,26 @@ ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
 ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True
 ACCOUNT_SESSION_REMEMBER = True
 
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = "smtp.gmail.com"
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = "piepie4358934586@gmail.com"
+# EMAIL_HOST_PASSWORD = "tulutulutulutulu"
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# UNIQUE_EMAIL = True
+# ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS=2
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = "piepie4358934586@gmail.com"
-EMAIL_HOST_PASSWORD = "tulutulutulutulu"
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-UNIQUE_EMAIL = True
-ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS=2
+EMAIL_HOST_USER = 'info.skillshala@gmail.com'
+EMAIL_HOST_PASSWORD = 'lkukccmwsejclhwa'
+WEBSITE = 'https://www.skill-shala.tech'
+SITE_ID = 1
+#@Password(1337)
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 10
 ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 86400
@@ -126,24 +137,24 @@ WSGI_APPLICATION = 'LICT.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-#DATABASES = {
-    #'default': {
-        #'ENGINE': 'django.db.backends.sqlite3',
-        #'NAME': BASE_DIR / 'db.sqlite3',
-    #}
-#}
-
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'lidzkscz',
-        'USER': 'lidzkscz',
-        'PASSWORD': '3-fQV02FQvDy1rl80kJihWgdb3YFt3sg',
-        'HOST': 'satao.db.elephantsql.com',
-        'PORT': '5432'
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'lidzkscz',
+#         'USER': 'lidzkscz',
+#         'PASSWORD': '3-fQV02FQvDy1rl80kJihWgdb3YFt3sg',
+#         'HOST': 'satao.db.elephantsql.com',
+#         'PORT': '5432'
+#     }
+# }
 
 #DATABASES = {
     #'default': {

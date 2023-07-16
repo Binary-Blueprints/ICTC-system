@@ -21,12 +21,25 @@
                     <a href="{% url 'post-delete' post.pk %}" style="color: #333;"><i class="fas fa-trash"></i></a>
                   {% endif %}
                 </h2>
-                 {% if post.image %}
-                  <img src="{{ post.image.url }}" class="img-fluid"/>
-                 {% endif %}
-               <hr/>
-               <p><a style="text-decoration: none" class="text-primary" href="#">@{{ post.publisher }}</a> <span>{{ post.publish_date }}</span></p>
+                <hr/>
+                <p><a style="text-decoration: none" class="text-primary" href="{% url 'profile' post.publisher.pk %}">@{{ post.publisher }}</a> <span>{{ post.publish_date }}</span></p>
                 <p class="brown-lighter-hover">{% autoescape off %}{{ post.body_html }}{% endautoescape %}</p>
+                
+                {% if post.research_file %}
+
+               <object data="{{ post.research_file.url }}" type="application/pdf" width="100%" height="500px">
+                   <p>Unable to display PDF file. <a href="{{ post.research_file.url }}">Download</a> instead.</p>
+               </object> 
+                {% endif %}
+                <h4>Collaborators:</h4>
+                {% for role,collaborators in post.collaborator_roles.items %}
+                <h5> {{ role }} </h5>
+                {% for collaborator in collaborators %}
+                <li><a href="{% url 'profile' collaborator.collaborating_user.id %}">{{collaborator.collaborating_user.get_full_name}} </a></li>
+                {% endfor %}
+
+                {% endfor %}
+
             </div>
         </div>
     </div>

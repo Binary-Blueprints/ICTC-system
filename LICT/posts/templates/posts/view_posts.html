@@ -2,26 +2,8 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-  {% if user.is_authenticated %}
-     <div class = "card my-3">
-        <div class = "card-body">
-              <h2 class="my-2">Create a Publication</h2>
-              <small>
-                <ul><li>Use <a href="https://www.markdownguide.org/basic-syntax" target="blank">markdown syntax </a>for formatting the text.</li>
-                <li>For adding images, drag and drop them into the textbox.</li>
-              </small>
-              <hr/>
-              <form method="POST" enctype="multipart/form-data">
-                 {% csrf_token %}
-                 {{ form.title|as_crispy_field }}
-                 <br/>
-                 {{ form.body|as_crispy_field }}
-                 <br/>
-                 <button class="btn btn-success mt-3" name="save_button">Submit!</button>
-               </form>
-              {{ form.media }}
-        </div>
-     </div>
+  {% if request.user.profile.posting_permission %}
+  <a href="{% url 'post-create' %}">Create Post</a>
    {% endif %}
 
    <h3 class="display-3 my-5 pt-5 text-center">Publications</h3>

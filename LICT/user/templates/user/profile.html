@@ -52,13 +52,8 @@
         <div class="col mb-4">
             <div class="card">
                 <div class="card-body">
-                    <h2 class="mb-3"><a href="{% url 'post-detail' post.pk %}" class="text-dark">{{ post.title }}</a></h2>
-                     {% if post.image %}
-                      <img src="{{ post.image.url }}" class="img-fluid"/>
-                     {% endif %}
-                   <hr/>
-                   <p><a style="text-decoration: none" class="text-primary" href="#">@{{ post.publisher }}</a> <span>{{ post.publish_date }}</span></p>
-                    <p class="brown-lighter-hover">{% autoescape off %}{{ post.body_html }}{% endautoescape %}</p>
+                    <h4 class="mb-3"><a href="{% url 'post-detail' post.pk %}" class="text-dark">{{ post.title }}</a></h4>
+
                 </div>
             </div>
         </div>
