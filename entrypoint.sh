@@ -12,7 +12,7 @@ python manage.py migrate
 
 if ["$PRODUCTION" == "true"]
 then
-    gunicorn LICT.wsgi:application --bind 0.0.0.0:8000 --reload
+    gunicorn LICT.wsgi:application --bind 0.0.0.0:80 --reload
 else
-    python manage.py runserver 0.0.0.0:8000   
+    python manage.py runserver 0.0.0.0:80   
 fi

@@ -12,4 +12,4 @@ COPY . /app/
 WORKDIR /app/LICT
 
 COPY ./entrypoint.sh /
-ENTRYPOINT ["sh", "/entrypoint.sh"]
+# ENTRYPOINT ["sh", "/entrypoint.sh"]

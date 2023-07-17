@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  app:
+    image: locususer/certification_system_prod-app:master
+    volumes:
+      - /var/database/locus_certification_system:/app/certification_system/db
+      - /var/www/static:/app/static
+      - /var/media/locus_certification_system:/app/certification_system/media
+    environment:
+      - PRODUCTION=true
+      - SECRET_KEY=YOUR_KEY
+      - EMAIL_HOST_USER=YOUR_EMAIL
+      - EMAIL_HOST_PASSWORD=YOUR_PASSWORD
+    
+  nginx:
+    image: nginx:1.23-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - app
+    volumes:
+      - /var/www/static:/static
+      - ./data/nginx:/etc/nginx/conf.d
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
