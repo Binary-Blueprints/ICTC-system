@@ -1,0 +1,19 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    env_file:
+      - ./.env.dev
+
+  db:
+    build:
+      context: .
+      dockerfile: ./db/Dockerfile.db
+    environment:
+      - POSTGRES_USER=ictc_admin
+      - POSTGRES_PASSWORD=@a1b2c3d4e5
+      - POSTGRES_DB=ictc
+      - POSTGRES_HOST_AUTH_METHOD=password

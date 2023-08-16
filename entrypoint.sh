@@ -1,7 +1,8 @@
 # on production we would want to send static files using nginx directly, for that we will need to collect static files
 # in the folder defined in the setting.py STATIC_ROOT
-if ["$PRODUCTION" == "true"]
+if $PRODUCTION == "true"
 then
+    echo "PRODUCTION TRUE: Running Production Server"
    python manage.py collectstatic --no-input
 fi
 
@@ -10,9 +11,9 @@ python manage.py makemigrations
 echo "Running migrate"
 python manage.py migrate
 
-if ["$PRODUCTION" == "true"]
+if $PRODUCTION == "true"
 then
-    gunicorn LICT.wsgi:application --bind 0.0.0.0:80 --reload
+    gunicorn LICT.wsgi:application --bind 0.0.0.0:8000 --reload
 else
-    python manage.py runserver 0.0.0.0:80   
+    python manage.py runserver 0.0.0.0:8000   
 fi

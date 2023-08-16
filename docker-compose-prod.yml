@@ -1,12 +1,7 @@
-version: '3'
-
 services:
   app:
-    image: locususer/certification_system_prod-app:master
-    volumes:
-      - /var/database/locus_certification_system:/app/certification_system/db
-      - /var/www/static:/app/static
-      - /var/media/locus_certification_system:/app/certification_system/media
+    
+    build: .
     environment:
       - PRODUCTION=true
       - SECRET_KEY=YOUR_KEY

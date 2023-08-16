@@ -67,6 +67,7 @@
         </li>
 
 
+
         <li class="nav-item dropdown">
           <a
             class="nav-link dropdown-toggle hidden-arrow"
@@ -130,26 +131,33 @@
             {% endif %}
           </ul>
         </li>
-
+        
 
         <li class="nav-item">
           <a class="nav-link" href="{% url 'vacancy' %}">
             Vacancy
           </a>
         </li>
-
+        
         <li class="nav-item">
           <a class="nav-link" href="{% url 'view-news' %}">
             Notices
           </a>
         </li>
-
+        
         <li class="nav-item">
           <a class="nav-link" href="{% url 'contact_us' %}">
             Contact Us
           </a>
         </li>
-
+        
+        {% if user.is_superuser%}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'user-create' %}">
+            Add User
+          </a>
+        </li>
+        {%endif%}
         {% if request.user.is_superuser %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'manage-permission' %}">
@@ -193,12 +201,14 @@
           class="dropdown-menu dropdown-menu-end"
           aria-labelledby="navbarDropdownMenuLink"
         >
+
           {% if request.user.is_authenticated %}
           <li><a class="dropdown-item" href="{% url 'account_logout' %}">Log Out</a></li>
           {% else %}
           <li><a class="dropdown-item" href="{% url 'account_login' %}">Log In</a></li>
           <li><a class="dropdown-item" href="{% url 'account_signup' %}">Sign Up</a></li>
           {% endif %}
+
         </ul>
       </li>
     </ul>

@@ -77,8 +77,8 @@ class ResearchPublicationList(models.Model):
         return self.name
 
     def researcher_list(self):
-        internal_researchers = [ researcher.get_full_name() for researcher in self.researchers.all() ]
-        external_researchers = self.external_researchers.split(',')
+        internal_researchers = [ f"{researcher.profile.designation} {researcher.get_full_name()}" for researcher in self.researchers.all() ]
+        external_researchers = self.external_researchers.split(',') if self.external_researchers is not None else []
         researchers = internal_researchers + external_researchers
 
         researchers = ', '.join(researchers)

@@ -91,7 +91,7 @@ class StatusEdit(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def test_func(self):
         post = self.get_object()
-        return self.request.user == post.publisher
+        return self.request.user == post.publisher or self.request.user.is_superuser
 
 
 class StatusDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):

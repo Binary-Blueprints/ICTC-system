@@ -14,11 +14,17 @@
                 {% if request.user == user %}
                     <a href="{% url 'profile-edit' profile.pk %}" style="color: #333"><i class="far fa-edit"></i></a>
                 {% endif %}
+                {% if request.user.profile.posting_permission %}
+                    <a href="{% url 'profile-edit' profile.pk %}" style="color: #333"><i class="far fa-edit"></i></a>
+                {% endif %}
             </span>
             {% else %}
-            <h3 class="pt-4">{{ user.username }}
+            <h3 class="pt-4">{{ user.get_full_name }}
                 <span>
                     {% if request.user == user %}
+                    <a href="{% url 'profile-edit' profile.pk %}" style="color: #333"><i class="far fa-edit"></i></a>
+                    {% endif %}
+                    {% if request.user.profile.posting_permission %}
                         <a href="{% url 'profile-edit' profile.pk %}" style="color: #333"><i class="far fa-edit"></i></a>
                     {% endif %}
                 </span>
@@ -60,4 +66,20 @@
     </div>
     {% endfor %}
 
+    {% if projects %}
+    <h5 class="display-5 mt-5 pt-5 text-center">Projects</h5>
+    {% endif %}
+
+   {% for post in projects %}
+    <div class="row ">
+        <div class="col mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="mb-3"><a href="{% url 'status-detail' post.collborating_project.pk %}" class="text-dark">{{ post.collborating_project.title }}</a></h4>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
 {% endblock content %}

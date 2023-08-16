@@ -1,0 +1,4 @@
+FROM postgres
+RUN apt-get install libpq5
+
+ADD ./db/psql.sql /docker-entrypoint-initdb.d

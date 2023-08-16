@@ -18,7 +18,7 @@
          <div class="card">
              <div class="card-body">
                  <h2 class="mb-3"><a href="#" class="text-dark">{{ post.title }}</a>
-                 {% if request.user == post.publisher %}
+                 {% if request.user == post.publisher or request.user.is_superuser %}
                    <a href="{% url 'status-edit' post.pk %}" style="color: #333; float:right;"><i class="far fa-edit mx-1"></i></a>
                    <a href="{% url 'status-delete' post.pk %}" style="color: #333; float:right;"><i class="fas fa-trash mx-1"></i></a>
                  {% endif %}
